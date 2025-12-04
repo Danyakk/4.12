@@ -6,7 +6,7 @@ struct IPrint {
 	virtual void PrintConsole() = 0;
 };
 
-class Transport : IPrint {
+class Transport : public IPrint {
 protected:
 	string model;
 	double price;
@@ -17,6 +17,10 @@ public:
 	model = m;
 	price = p;
 	}
+	virtual void PrintConsole()
+	{
+		cout << "Model: " << model << " Price: " << price << endl;
+	}
 
 };
 
@@ -26,13 +30,15 @@ protected:
 	double speed;
 public:
 	Car() { speed = 0; }
-	Car(string c, double s)
+	Car(string c, double s, string m, double p) : Transport(m, p)
 	{
 		color = c;
 		speed = s;
 	}
 	virtual void PrintConsole()
 	{
+		cout << "----------Car----------" << endl;
+		Transport::PrintConsole();
 		cout << "Color: " << color << " Speed: " << speed << endl;
 	}
 };
@@ -43,19 +49,21 @@ public:
 		double place;
 	public:
 		Plane() { place = 0; }
-		Plane(string cp, double pl)
+		Plane(string cp, double pl, string m, double p) : Transport(m, p)
 		{
 			company = cp;
 			place = pl;
 		}
 		virtual void PrintConsole()
 		{
+			cout << "----------Plane----------" << endl;
+			Transport::PrintConsole();
 			cout << "Company: " << company << " Places: " << place << endl;
 		}
 
 };
 
-	class Animal : IPrint {
+	class Animal : public IPrint {
 	protected:
 		string name;
 		double weight;
@@ -66,7 +74,10 @@ public:
 			name = n;
 			weight = w;
 		}
-
+		virtual void PrintConsole() 
+		{
+			cout << "Name: " << name << " Weight: " << weight << endl;
+		}
 	};
 	class Pinguin  : public Animal {
 	protected:
@@ -74,13 +85,15 @@ public:
 		double height;
 	public:
 		Pinguin() { weight = 0; }
-		Pinguin(string r, double h)
+		Pinguin(string r, double h, string n, double w) : Animal(n, w)
 		{
 			region = r;
 			height = h;
 		}
 		virtual void PrintConsole()
 		{
+			cout << "----------Pinguin----------" << endl;
+			Animal::PrintConsole();
 			cout << "Region: " << region << " Height: " << height << endl;
 		}
 
@@ -91,25 +104,27 @@ public:
 		double dogBiteForce;
 	public:
 		Dog() { dogBiteForce = 0; }
-		Dog(string b, double dbf)
+		Dog(string b, double dbf, string n, double w) : Animal(n, w)
 		{
 			breed = b;
 			dogBiteForce = dbf;
 		}
 		virtual void PrintConsole()
 		{
+			cout << "----------Dog----------" << endl;
+			Animal::PrintConsole();
 			cout << "Breed: " << breed << " Dog Bite Force: " << dogBiteForce << endl;
 		}
 
 	};
 
 int main() {
-	Car car("Red", 220);
+	Car car("Red", 220, "Audi", 20000);
 	car.PrintConsole();
-	Plane plane("Boeing", 180);
+	Plane plane("White", 200 ,"Boeing", 12800000);
 	plane.PrintConsole();
-	Pinguin pinguin("Antarctica", 70);
+	Pinguin pinguin("Saimon", 20, "Antarctica", 70);
 	pinguin.PrintConsole();
-	Dog dog("Bulldog", 300);
+	Dog dog("Casper", 45, "Bulldog", 300);
 	dog.PrintConsole();
 }
